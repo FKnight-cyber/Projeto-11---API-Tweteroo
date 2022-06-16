@@ -7,12 +7,14 @@ app.use(json());
 
 const user = [];
 let userImage;
+let userName;
 
 let tweets = [];
 
 app.post('/sign-up',(req,res)=>{
     const body = req.body;
     userImage = body.avatar;
+    userName = body.username
 
     if(body.username === '' || body.avatar === ''){
         res.status(400).send('Todos os campos são obrigatórios!');
@@ -25,7 +27,7 @@ app.post('/sign-up',(req,res)=>{
 
     user.push(newUser);
 
-    res.send('OK');
+    res.status(201).send('OK');
 });
 
 app.post('/tweets',(req,res) => {
@@ -36,19 +38,19 @@ app.post('/tweets',(req,res) => {
     }
 
     const newTweet = {
-        username: body.username,
+        username: userName,
         tweet: body.tweet,
         avatar: userImage
     }
 
     tweets.push(newTweet);
 
-    res.send('OK');
+    res.status(201).send('OK');
 });
 
 app.get('/tweets',(req,res)=>{
     tweets = tweets.slice(-10);
-    res.send(tweets);
+    res.status(201).send(tweets);
 })
 
 app.listen(5000);
