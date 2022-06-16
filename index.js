@@ -8,17 +8,15 @@ app.use(json());
 const user = [];
 let userImage;
 
-let tweets = [
-	{
-	    username: "bobesponja",
-		avatar: "https://super.abril.com.br/wp-content/uploads/2020/09/04-09_gato_SITE.jpg?quality=70&strip=info",
-	    tweet: "eu amo o hub"
-	}
-];
+let tweets = [];
 
 app.post('/sign-up',(req,res)=>{
     const body = req.body;
     userImage = body.avatar;
+
+    if(body.username === '' || body.avatar === ''){
+        res.status(400).send('Todos os campos são obrigatórios!');
+    }
     
     const newUser = {
         username: body.username,
@@ -32,6 +30,10 @@ app.post('/sign-up',(req,res)=>{
 
 app.post('/tweets',(req,res) => {
     const body = req.body;
+
+    if(body.username === '' || body.tweet === ''){
+        res.status(400).send('Todos os campos são obrigatórios!');
+    }
 
     const newTweet = {
         username: body.username,
