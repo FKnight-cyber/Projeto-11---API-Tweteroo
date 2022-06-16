@@ -49,8 +49,14 @@ app.post('/tweets',(req,res) => {
 });
 
 app.get('/tweets',(req,res)=>{
-    tweets = tweets.slice(-10);
-    res.status(201).send(tweets);
+    const page = parseInt(req.query.page);
+    const pageTweets = [...tweets]
+
+    if(page >= 1 && page <= Math.round(tweets.length/10)+1 ){
+        res.status(201).send(pageTweets.reverse().splice(0+10*(page-1),10+10*(page-1)));
+    }else{
+        res.status(400).send("Informe uma página válida!");
+    }
 });
 
 app.get("/tweets/:USERNAME",(req,res)=>{
